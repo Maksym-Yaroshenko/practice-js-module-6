@@ -94,9 +94,9 @@ class User2 {
   }
 }
 
-const mango = new User2("Maksym");
+const mango11 = new User2("Maksym");
 
-console.log(mango);
+console.log(mango11);
 
 console.log("");
 
@@ -189,7 +189,7 @@ console.log(maks.email);
 
 console.log(
   new User({
-    name: "Maksum",
+    name: "Maksym",
     email: "111221",
   })
 );
@@ -229,3 +229,54 @@ console.log(audi.price); // 49000
 
 audi.price = 51000;
 console.log(audi.price); // 49000
+
+console.log("");
+
+class NewUser {
+  email;
+
+  constructor(email) {
+    this.email = email;
+  }
+
+  get email() {
+    return this.email;
+  }
+
+  set email(newEmail) {
+    this.email = newEmail;
+  }
+}
+class Admin extends NewUser {
+  static role = {
+    BASIC: "basic",
+    SUPERUSER: "superuser",
+  };
+  blacklistedEmails = [];
+
+  constructor({ email, access }) {
+    super(email);
+    this.access = access;
+  }
+
+  blacklist(email) {
+    this.blacklistedEmails.push(email);
+  }
+
+  isBlacklisted(email) {
+    return this.blacklistedEmails.includes(email);
+  }
+}
+
+const mango = new Admin({
+  email: "mango@mail.com",
+  access: Admin.role.SUPERUSER,
+});
+
+console.log(mango.email); // "mango@mail.com"
+console.log(mango.access); // "superuser"
+
+mango.blacklist("poly@mail.com");
+console.log(mango.blacklistedEmails); // ["poly@mail.com"]
+console.log(mango.isBlacklisted("mango@mail.com")); // false
+console.log(mango.isBlacklisted("poly@mail.com")); // true
